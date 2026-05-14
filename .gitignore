@@ -7,7 +7,6 @@
 
 # Backend (Node.js/Express)
 backend/node_modules/
-backend/.env
 backend/dist/
 backend/npm-debug.log*
 
