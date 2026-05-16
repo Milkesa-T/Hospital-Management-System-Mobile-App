@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:hospital_management_system/constants/colors.dart';
 import 'package:hospital_management_system/screens/Appointments.dart';
 import 'package:hospital_management_system/screens/History.dart';
@@ -11,15 +10,15 @@ import 'package:hospital_management_system/screens/Prescriptions.dart';
 class DashboardTiles extends StatefulWidget {
   final String username;
   final String userId;
-  const DashboardTiles({Key key, this.username, this.userId}) : super(key: key);
+  const DashboardTiles({Key? key, required this.username, required this.userId}) : super(key: key);
 
   @override
   _DashboardTilesState createState() => _DashboardTilesState();
 }
 
 class _DashboardTilesState extends State<DashboardTiles> {
-  double width;
-  double height;
+  double width = 0;
+  double height = 0;
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -93,7 +92,7 @@ class _DashboardTilesState extends State<DashboardTiles> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(FlutterIcons.calendar_account_mco,
+                          Icon(Icons.calendar_today,
                               size: 50, color: primaryColor),
                           Text(
                             'Appointments',
@@ -122,7 +121,7 @@ class _DashboardTilesState extends State<DashboardTiles> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(FlutterIcons.test_tube_mco,
+                          Icon(Icons.science,
                               size: 50, color: primaryColor),
                           Text(
                             'Lab Tests',
@@ -181,7 +180,7 @@ class _DashboardTilesState extends State<DashboardTiles> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(FlutterIcons.medical_bag_mco,
+                          Icon(Icons.medical_services,
                               size: 50, color: primaryColor),
                           Text(
                             'Prescriptions',
@@ -210,7 +209,7 @@ class _DashboardTilesState extends State<DashboardTiles> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(MaterialCommunityIcons.history,
+                          Icon(Icons.history,
                               size: 50, color: primaryColor),
                           Text(
                             'History',
@@ -239,7 +238,7 @@ class _DashboardTilesState extends State<DashboardTiles> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(FlutterIcons.file_document_mco,
+                          Icon(Icons.file_download,
                               size: 50, color: primaryColor),
                           Text(
                             'Downloads',

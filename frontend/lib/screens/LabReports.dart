@@ -9,7 +9,7 @@ import 'package:hospital_management_system/services/NetworkHelper.dart';
 class LabReports extends StatefulWidget {
   final String userId;
 
-  LabReports({this.userId});
+  LabReports({Key? key, required this.userId}) : super(key: key);
 
   @override
   _LabReportsState createState() => _LabReportsState();
@@ -17,9 +17,9 @@ class LabReports extends StatefulWidget {
 
 class _LabReportsState extends State<LabReports> {
   bool _loading = false;
-  List _completedLabTests;
-  double width;
-  double height;
+  List _completedLabTests = [];
+  double width = 0;
+  double height = 0;
 
   // for real device
   final String pdfBaseUrl = 'http://0.0.0.0:8001/lab-reports';
@@ -244,7 +244,7 @@ class _LabReportsState extends State<LabReports> {
 class PdfViewPage extends StatefulWidget {
   final String location;
 
-  const PdfViewPage({Key key, this.location}) : super(key: key);
+  const PdfViewPage({Key? key, required this.location}) : super(key: key);
   @override
   _PdfViewPageState createState() => _PdfViewPageState();
 }

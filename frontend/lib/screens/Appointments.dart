@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management_system/constants/colors.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +11,7 @@ import 'package:hospital_management_system/widgets/MyTextField.dart';
 class Appointments extends StatefulWidget {
   final String userId;
 
-  Appointments({this.userId});
+  Appointments({Key? key, required this.userId}) : super(key: key);
 
   @override
   _AppointmentsState createState() => _AppointmentsState();
@@ -19,10 +19,10 @@ class Appointments extends StatefulWidget {
 
 class _AppointmentsState extends State<Appointments> {
   bool _loading = false;
-  List _appointments;
-  List _doctors;
-  double width;
-  double height;
+  List _appointments = [];
+  List _doctors = [];
+  double width = 0;
+  double height = 0;
   var _selectedDocotor;
   String dropdownValue = 'Update';
 
@@ -168,7 +168,7 @@ class _AppointmentsState extends State<Appointments> {
         onPressed: () {
           _addNewAppointmentDialog(context);
         },
-        icon: Icon(FlutterIcons.calendar_plus_mco),
+        icon: Icon(Icons.add),
       ),
       body: _loading
           ? Center(child: CircularProgressIndicator())
@@ -300,10 +300,12 @@ class _AppointmentsState extends State<Appointments> {
                                                 height: 0,
                                                 color: Colors.deepPurpleAccent,
                                               ),
-                                              onChanged: (String newValue) {
-                                                setState(() {
-                                                  dropdownValue = newValue;
-                                                });
+                                              onChanged: (String? newValue) {
+                                                if (newValue != null) {
+                                                  setState(() {
+                                                    dropdownValue = newValue;
+                                                  });
+                                                }
                                               },
                                               items: <String>[
                                                 'View',
@@ -419,7 +421,7 @@ class _AppointmentsState extends State<Appointments> {
   }
 
 // adding new appointment dialog
-  Future<Widget> _addNewAppointmentDialog(context) {
+  Future<void> _addNewAppointmentDialog(context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -470,7 +472,7 @@ class _AppointmentsState extends State<Appointments> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 10.0),
                             child: DropdownButtonFormField(
-                              value: _selectedDocotor,
+                              initialValue: _selectedDocotor,
                               items: _doctors
                                   .map((value) => DropdownMenuItem(
                                         child: Text(value["full_name"]),
@@ -478,10 +480,8 @@ class _AppointmentsState extends State<Appointments> {
                                       ))
                                   .toList(),
                               onChanged: (value) {
-                                print('inside on change');
                                 setState(() {
                                   _selectedDocotor = value;
-                                  print('set change: $value');
                                 });
                               },
                               isExpanded: true,
@@ -491,7 +491,7 @@ class _AppointmentsState extends State<Appointments> {
                               iconSize: 30.0,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
-                                  MaterialCommunityIcons.doctor,
+                                  Icons.medical_services,
                                   color: primaryColor,
                                 ),
                                 filled: true,
@@ -530,7 +530,7 @@ class _AppointmentsState extends State<Appointments> {
                           ),
                           MyTextField(
                             hint: 'Description',
-                            icon: MaterialCommunityIcons.note_text,
+                            icon: Icons.note,
                             isMultiline: true,
                             maxLines: 5,
                             controller: _descriptionController,
@@ -543,7 +543,7 @@ class _AppointmentsState extends State<Appointments> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 _addAppointment().then((value) {
                                   var res = jsonDecode(value.body);
 
@@ -596,7 +596,7 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   // update appointments dialog
-  Future<Widget> _updateAppointmentDialog(context, appointmentId) async {
+  Future<void> _updateAppointmentDialog(context, appointmentId) async {
     await Future.delayed(Duration(milliseconds: 100));
     return showDialog(
         context: context,
@@ -646,7 +646,7 @@ class _AppointmentsState extends State<Appointments> {
                         children: [
                           MyTextField(
                             hint: 'Description',
-                            icon: MaterialCommunityIcons.note_text,
+                            icon: Icons.note,
                             isMultiline: true,
                             maxLines: 5,
                             controller: _descriptionController,
@@ -659,7 +659,7 @@ class _AppointmentsState extends State<Appointments> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 _updateAppointment(appointmentId).then((value) {
                                   var res = jsonDecode(value.body);
 
@@ -712,7 +712,7 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   // view appointment details dialog
-  Future<Widget> _viewAppointmentDialog(context, appointment) async {
+  Future<void> _viewAppointmentDialog(context, appointment) async {
     await Future.delayed(Duration(milliseconds: 100));
     return showDialog(
         context: context,

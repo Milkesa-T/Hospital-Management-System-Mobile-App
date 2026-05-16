@@ -4,9 +4,9 @@ import 'package:stripe_payment/stripe_payment.dart';
 import 'package:hospital_management_system/services/NetworkHelper.dart';
 
 class StripeTransactionResponse {
-  String message;
-  bool success;
-  String paymentId;
+  String? message;
+  bool? success;
+  String? paymentId;
   StripeTransactionResponse({this.message, this.success, this.paymentId});
 }
 
@@ -21,7 +21,7 @@ class StripeService {
   }
 
   static Future<StripeTransactionResponse> payWithNewCard(
-      {String amount, String currency, String paymentFor}) async {
+      {required String amount, required String currency, required String paymentFor}) async {
     try {
       // 1. Ask the user for their card details
       var paymentMethod = await StripePayment.paymentRequestWithCardForm(
@@ -30,7 +30,7 @@ class StripeService {
       // 2. Ask our SECURE backend to create a Payment Intent
       var paymentIntent = await StripeService.createPaymentIntent(amount, currency, paymentFor);
 
-      if (paymentIntent == null || paymentIntent['error'] == true) {
+      if (paymentIntent['error'] == true) {
         return StripeTransactionResponse(message: 'Could not initialize payment with server', success: false);
       }
 
@@ -79,7 +79,7 @@ class StripeService {
       return jsonDecode(response.body);
     } catch (err) {
       print('Error creating payment intent: ${err.toString()}');
+      return {'error': true, 'message': err.toString()};
     }
-    return null;
   }
 }

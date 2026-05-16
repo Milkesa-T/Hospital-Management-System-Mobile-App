@@ -9,7 +9,7 @@ import 'package:hospital_management_system/services/NetworkHelper.dart';
 class Prescriptions extends StatefulWidget {
   final String userId;
 
-  Prescriptions({this.userId});
+  Prescriptions({Key? key, required this.userId}) : super(key: key);
 
   @override
   _PrescriptionsState createState() => _PrescriptionsState();
@@ -17,9 +17,9 @@ class Prescriptions extends StatefulWidget {
 
 class _PrescriptionsState extends State<Prescriptions> {
   bool _loading = false;
-  List _prescriptions;
-  double width;
-  double height;
+  List _prescriptions = [];
+  double width = 0;
+  double height = 0;
   String dropdownValue = 'Mark as Received';
 
 
@@ -238,10 +238,12 @@ class _PrescriptionsState extends State<Prescriptions> {
                                                 color:
                                                     Colors.deepPurpleAccent,
                                               ),
-                                              onChanged: (String newValue) {
-                                                setState(() {
-                                                  dropdownValue = newValue;
-                                                });
+                                              onChanged: (String? newValue) {
+                                                if (newValue != null) {
+                                                  setState(() {
+                                                    dropdownValue = newValue;
+                                                  });
+                                                }
                                               },
                                               items: <String>[
                                                 'Mark as Received',

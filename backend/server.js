@@ -22,9 +22,14 @@ app.use(cors());
 app.use(express.json());
 
 // Database Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB Connected Locally'))
-  .catch(err => console.log('MongoDB Connection Error:', err));
+if (!process.env.MONGODB_URI) {
+  console.warn('MONGODB_URI is not set. Create a backend/.env file (or set env var) to enable database connection.');
+} else {
+  mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('MongoDB Connected Locally'))
+    .catch(err => console.log('MongoDB Connection Error:', err));
+}
+
 
 // Initialize Notification Service
 notificationService.init(io);

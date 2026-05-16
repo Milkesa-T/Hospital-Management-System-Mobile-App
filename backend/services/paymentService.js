@@ -1,4 +1,6 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+const stripe = stripeKey ? require('stripe')(stripeKey) : null;
+
 const Appointment = require('../models/Appointment');
 const LabTest = require('../models/LabTest');
 

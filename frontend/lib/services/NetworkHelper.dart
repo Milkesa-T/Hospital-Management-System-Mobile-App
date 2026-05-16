@@ -3,7 +3,10 @@ import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 
 class Network {
-  final String url = "http://10.0.2.2:5000/api";
+  // Use localhost for web/desktop; 10.0.2.2 is for Android emulator.
+  // Change to 10.0.2.2 if you run inside an Android emulator.
+  final String url = "http://localhost:5000/api";
+
   static String? _token;
 
   // Set token after login
@@ -23,19 +26,19 @@ class Network {
   }
 
   postData(values, endpoint) async {
-    var fullUrl = url + endpoint;
+    var fullUrl = Uri.parse(url + endpoint);
     return await http.post(
-      fullUrl, 
-      body: jsonEncode(values), 
-      headers: _getHeaders()
+      fullUrl,
+      body: jsonEncode(values),
+      headers: _getHeaders(),
     );
   }
 
   getData(endpoint) async {
-    var fullUrl = url + endpoint;
+    var fullUrl = Uri.parse(url + endpoint);
     return await http.get(
-      fullUrl, 
-      headers: _getHeaders()
+      fullUrl,
+      headers: _getHeaders(),
     );
   }
 

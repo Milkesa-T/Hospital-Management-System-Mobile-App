@@ -10,7 +10,7 @@ import 'package:hospital_management_system/services/NetworkHelper.dart';
 class Payable extends StatefulWidget {
   final String userId;
 
-  Payable({this.userId});
+  Payable({Key? key, required this.userId}) : super(key: key);
 
   @override
   _PayableState createState() => _PayableState();
@@ -18,9 +18,9 @@ class Payable extends StatefulWidget {
 
 class _PayableState extends State<Payable> {
   bool _loading = false;
-  List _payableAppointments;
-  double width;
-  double height;
+  List _payableAppointments = [];
+  double width = 0;
+  double height = 0;
   String dropdownValue = 'Pay';
 
   GlobalKey<FormState> _formKey = GlobalKey();
@@ -272,10 +272,12 @@ class _PayableState extends State<Payable> {
                                                 height: 0,
                                                 color: Colors.deepPurpleAccent,
                                               ),
-                                              onChanged: (String newValue) {
-                                                setState(() {
-                                                  dropdownValue = newValue;
-                                                });
+                                              onChanged: (String? newValue) {
+                                                if (newValue != null) {
+                                                  setState(() {
+                                                    dropdownValue = newValue;
+                                                  });
+                                                }
                                               },
                                               items: <String>[
                                                 'Pay',
@@ -381,15 +383,16 @@ class _PayableState extends State<Payable> {
                                                             }
                                                           });
                                                         } else {
-                                                          Fluttertoast.showToast(
+Fluttertoast.showToast(
                                                               msg:
-                                                                  value.message,
+                                                                  value.message ?? '',
                                                               backgroundColor:
                                                                   errorColor,
                                                               textColor:
                                                                   colorWhite,
                                                               toastLength: Toast
                                                                   .LENGTH_LONG);
+
                                                         }
                                                       });
                                                     }
@@ -415,7 +418,7 @@ class _PayableState extends State<Payable> {
   }
 
   // view appointment details dialog
-  Future<Widget> _viewAppointmentDialog(context, appointment) async {
+  Future<void> _viewAppointmentDialog(context, appointment) async {
     await Future.delayed(Duration(milliseconds: 100));
     return showDialog(
         context: context,

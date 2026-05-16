@@ -8,7 +8,7 @@ import 'package:hospital_management_system/services/NetworkHelper.dart';
 class History extends StatefulWidget {
   final String userId;
 
-  History({this.userId});
+  History({Key? key, required this.userId}) : super(key: key);
 
   @override
   _HistoryState createState() => _HistoryState();
@@ -16,9 +16,9 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   bool _loading = false;
-  List _history;
-  double width;
-  double height;
+  List _history = [];
+  double width = 0;
+  double height = 0;
 
   @override
   void initState() {
@@ -203,7 +203,7 @@ class _HistoryState extends State<History> {
   }
 
   // view appointment details dialog
-  Future<Widget> _viewAppointmentDialog(context, appointment) async {
+  Future<void> _viewAppointmentDialog(context, appointment) async {
     await Future.delayed(Duration(milliseconds: 100));
     return showDialog(
         context: context,

@@ -5,7 +5,7 @@ class MyButton extends StatefulWidget {
   final Color btnColor;
   final double btnRadius;
 
-  MyButton({@required this.text, @required this.btnColor, @required this.btnRadius});
+  MyButton({required this.text, required this.btnColor, required this.btnRadius});
 
   @override
   _MyButtonState createState() => _MyButtonState();

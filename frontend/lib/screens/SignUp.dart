@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management_system/constants/colors.dart';
@@ -18,8 +17,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  double width;
-  double height;
+  late double width;
+  late double height;
   bool visible = false;
   bool _loading = false;
 
@@ -65,7 +64,7 @@ class _SignUpState extends State<SignUp> {
     return response;
   }
 
-  String validateEmail(String value) {
+  String? validateEmail(String value) {
     String pattern =
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regExp = new RegExp(pattern);
@@ -78,7 +77,7 @@ class _SignUpState extends State<SignUp> {
     return null;
   }
 
-    String validateMobile(String value) {
+    String? validateMobile(String value) {
     String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(pattern);
 
@@ -125,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                           MyTextField(
                             controller: _nameController,
                             hint: "Name",
-                            icon: FlutterIcons.account_card_details_mco,
+                            icon: Icons.person,
                             validation: (val) {
                               if (val.isEmpty) {
                                 return "Name is required";
@@ -138,7 +137,7 @@ class _SignUpState extends State<SignUp> {
                           MyTextField(
                             controller: _usernameController,
                             hint: "Username",
-                            icon: FlutterIcons.account_badge_horizontal_mco,
+                            icon: Icons.account_circle,
                             validation: (val) {
                               if (val.isEmpty) {
                                 return "Username is required";
@@ -176,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                             hint: "Address",
                             isMultiline: true,
                             maxLines: 3,
-                            icon: FlutterIcons.location_city_mdi,
+                            icon: Icons.location_city,
                             validation: (val) {
                               if (val.isEmpty) {
                                 return "Address is required";
@@ -191,7 +190,7 @@ class _SignUpState extends State<SignUp> {
                             hint: "Password",
                             isPassword: true,
                             isSecure: true,
-                            icon: FlutterIcons.account_key_mco,
+                            icon: Icons.lock,
                             validation: (val) {
                               if (val.isEmpty) {
                                 return "Password is required";
@@ -203,7 +202,7 @@ class _SignUpState extends State<SignUp> {
                           // login button
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 _register().then((value) {
                                   var res = jsonDecode(value.body);
 

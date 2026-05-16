@@ -8,15 +8,15 @@ class Dashboard extends StatefulWidget {
   final String name;
   final String userId;
 
-  Dashboard({this.name, this.userId});
+  Dashboard({required this.name, required this.userId});
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
   Page _selectedPage = Page.dashboard;
-  double width;
-  double height;
+  double width = 0;
+  double height = 0;
 
   @override
   Widget build(BuildContext context) {

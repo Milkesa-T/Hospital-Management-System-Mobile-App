@@ -13,7 +13,7 @@ class MyTextField extends StatefulWidget {
   final maxLength;
   final maxLines;
   final validation;
-  IconData icon;
+  IconData? icon;
   var onChanged;
 
   MyTextField(
@@ -22,11 +22,11 @@ class MyTextField extends StatefulWidget {
       this.isNumber = false,
       this.isMultiline = false,
       this.isSecure = false,
-      @required this.controller,
+      required this.controller,
       this.hint = "",
       this.maxLength,
       this.maxLines = 1,
-      @required this.validation,
+      required this.validation,
       this.icon,
       this.onChanged});
 
@@ -71,12 +71,10 @@ class _MyTextFieldState extends State<MyTextField> {
                   ),
                 )
               : null,
-          prefixIcon: widget.icon != null
-              ? Icon(
+          prefixIcon: widget.icon != null ? Icon(
                   widget.icon,
                   color: primaryColor,
-                )
-              : null,
+                ) : null,
           contentPadding: EdgeInsets.fromLTRB(16, 10, 16, 10),
           hintText: widget.hint,
           hintStyle: TextStyle(color: hintColor),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management_system/constants/colors.dart';
 import 'package:hospital_management_system/services/PaymentService.dart';
@@ -12,7 +12,7 @@ import 'package:hospital_management_system/widgets/MyTextField.dart';
 class LabTests extends StatefulWidget {
   final String userId;
 
-  LabTests({this.userId});
+  LabTests({Key? key, required this.userId}) : super(key: key);
 
   @override
   _LabTestsState createState() => _LabTestsState();
@@ -20,9 +20,9 @@ class LabTests extends StatefulWidget {
 
 class _LabTestsState extends State<LabTests> {
   bool _loading = false;
-  List _labTests;
-  double width;
-  double height;
+  List _labTests = [];
+  double width = 0;
+  double height = 0;
   String dropdownValue = 'Update';
 
   TextEditingController _detailsController = TextEditingController();
@@ -160,7 +160,7 @@ class _LabTestsState extends State<LabTests> {
         onPressed: () {
           _addNewLabTestDialog(context);
         },
-        icon: Icon(FlutterIcons.lab_flask_ent),
+        icon: Icon(Icons.science),
       ),
       body: _loading
           ? Center(child: CircularProgressIndicator())
@@ -301,10 +301,12 @@ class _LabTestsState extends State<LabTests> {
                                                 height: 0,
                                                 color: Colors.deepPurpleAccent,
                                               ),
-                                              onChanged: (String newValue) {
-                                                setState(() {
-                                                  dropdownValue = newValue;
-                                                });
+                                              onChanged: (String? newValue) {
+                                                if (newValue != null) {
+                                                  setState(() {
+                                                    dropdownValue = newValue;
+                                                  });
+                                                }
                                               },
                                               items: <String>[
                                                 'View',
@@ -416,7 +418,7 @@ class _LabTestsState extends State<LabTests> {
   }
 
 // add new lab test dialog
-  Future<Widget> _addNewLabTestDialog(context) {
+  Future<void> _addNewLabTestDialog(context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -465,7 +467,7 @@ class _LabTestsState extends State<LabTests> {
                         children: [
                           MyTextField(
                             hint: 'Details',
-                            icon: MaterialCommunityIcons.note_text,
+                            icon: Icons.note,
                             isMultiline: true,
                             maxLines: 5,
                             controller: _detailsController,
@@ -478,7 +480,7 @@ class _LabTestsState extends State<LabTests> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 Navigator.pop(context);
 
                                 _makePayment().then((value) {
@@ -507,11 +509,12 @@ class _LabTestsState extends State<LabTests> {
                                       }
                                     });
                                   } else {
-                                    Fluttertoast.showToast(
-                                        msg: value.message,
+Fluttertoast.showToast(
+                                        msg: value.message ?? '',
                                         backgroundColor: Colors.red[600],
                                         textColor: colorWhite,
                                         toastLength: Toast.LENGTH_LONG);
+
                                   }
                                 });
                               }
@@ -542,7 +545,7 @@ class _LabTestsState extends State<LabTests> {
   }
 
   // update lab test dialog
-  Future<Widget> _updateLabTestDialog(context, labTestId) async {
+  Future<void> _updateLabTestDialog(context, labTestId) async {
     await Future.delayed(Duration(milliseconds: 100));
     return showDialog(
         context: context,
@@ -592,7 +595,7 @@ class _LabTestsState extends State<LabTests> {
                         children: [
                           MyTextField(
                             hint: 'Details',
-                            icon: MaterialCommunityIcons.note_text,
+                            icon: Icons.note,
                             isMultiline: true,
                             maxLines: 5,
                             controller: _detailsController,
@@ -605,7 +608,7 @@ class _LabTestsState extends State<LabTests> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 _updateLabTest(labTestId).then((value) {
                                   var res = jsonDecode(value.body);
 
@@ -658,7 +661,7 @@ class _LabTestsState extends State<LabTests> {
   }
 
   // view lab test details dialog
-  Future<Widget> _viewLabTestDialog(context, labTest) async {
+  Future<void> _viewLabTestDialog(context, labTest) async {
     await Future.delayed(Duration(milliseconds: 100));
     return showDialog(
         context: context,

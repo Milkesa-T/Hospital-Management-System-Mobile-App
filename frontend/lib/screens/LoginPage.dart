@@ -18,8 +18,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  double width;
-  double height;
+  late double width;
+  late double height;
   bool visible = false;
   bool _loading = false;
 
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                           // login button
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 _login().then((value) {
                                   var res = jsonDecode(value.body);
 
